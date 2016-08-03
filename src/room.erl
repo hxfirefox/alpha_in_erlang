@@ -95,22 +95,25 @@ loop(State = #state{status = playing, current_player = {Current, NickName}, play
         true ->
           GameState2 = Board:next_state(GameState, Move),
           NextPlayer = {Next, _} = next_player(Current, Players),
-          update(Current, Move,GameState2),
-          update(Next, Move,GameState2),
+          update(Current, Move, GameState2),
+          update(Next, Move, GameState2),
           case Board:winner(GameState2) of
-            on_going->
+            on_going ->
               play(Next),
-              loop(State#state{game_state = GameState2,current_player = NextPlayer});
-            draw->
-              loop(State#state{status = waiting, players = [],current_player = none});
-            _->
-              loop(State#state{status = waiting, players = [], current_player =none})
+              loop(State#state{game_state = GameState2, current_player = NextPlayer});
+            draw ->
+              loop(State#state{status = waiting, players = [], current_player = none});
+            _ ->
+              loop(State#state{status = waiting, players = [], current_player = none})
           end
-      end
-%%{'DOWN',_,process,Pid,Reason}->
-%%Unexpected->
-%%io:format("unexpected @playing ~p~n", [Unexpected]),
-%%loop(State)
+      end;
+    {'DOWN', _, process, Pid, Reason} ->
+      io:format("~p down @playing for: ~p~n", [Pid, Reason]),
+      self() ! {leave, Pid},
+      loop(State);
+    Unexpected ->
+      io:format("unexpected @playing ~p~n", [Unexpected]),
+      loop(State)
   end.
 
 select_player(Players) ->
@@ -139,3 +142,6 @@ play(Pid) ->
 
 play(_Arg0, _Arg1) ->
   erlang:error(not_implemented).
+
+notify_user(Pid, Msg) ->
+  Pid ! {notify, Msg}.
