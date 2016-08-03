@@ -9,15 +9,23 @@
 -module(client).
 -author("hx").
 
--record(state, {nickname, type, player, board, socket}).
 %% API
 -export([start/5, echo/2]).
 -export([enter_room/1, leave_room/1]).
 
+-record(state, {nickname, type, player, board, socket}).
 
-start(NickName, PlayerType, Board, SIp, Sport) ->
-  Pid = spawn(fun() -> init(NickName, PlayerType, Board, SIp, Sport) end),
+start(NickName, PlayerType, Board, SIp, SPort) ->
+  Pid = spawn(fun() -> init(NickName, PlayerType, Board, SIp, SPort) end),
   {ok, Pid}.
+
+enter_room(Pid) ->
+  Pid ! enter_room,
+  ok.
+
+leave_room(Pid) ->
+  Pid ! leave_room,
+  ok.
 
 echo(Pid, Msg) ->
   Pid ! {echo, Msg},
@@ -28,10 +36,11 @@ echo(Pid, Msg) ->
 init(NickName, PlayerType, Board, SIp, SPort) ->
   io:format("connect to ~p~n", [[SIp, SPort]]),
   {ok, Sock} = gen_tcp:connect(SIp, SPort, [binary, {active, true}, {packet, 2}]),
+
   Player = player:start(PlayerType, Board),
   loop(#state{nickname = NickName, type = PlayerType, player = Player, board = Board, socket = Sock}).
 
-loop(State = #state{nickname = NickName, type = PlayerType, player=Player, board = Board, socket = Sock}) ->
+loop(State = #state{nickname = NickName, type = Type, player=Player, board = Board, socket = Sock}) ->
   receive
     {echo, Msg} ->
       gen_tcp:send(Sock, term_to_binary({echo, Msg})),
@@ -49,10 +58,10 @@ loop(State = #state{nickname = NickName, type = PlayerType, player=Player, board
         {notify, Msg} ->
           io:format("~s~n", [Msg]);
         {update, Move, GameState} ->
-          player:update(PlayerType, Player, GameState),
-          player:display(PlayerType, Player, GameState, Move);
+          player:update(Type, Player, GameState),
+          player:display(Type, Player, GameState, Move);
         play ->
-          {ok, Move} = player:get_move(PlayerType, Player),
+          {ok, Move} = player:get_move(Type, Player),
           io:format("my move ~p~n", [Move]),
           gen_tcp:send(Sock, term_to_binary({play, Move}));
         Unexpected->
@@ -60,11 +69,3 @@ loop(State = #state{nickname = NickName, type = PlayerType, player=Player, board
       end,
       loop(State)
   end.
-
-enter_room(Pid) ->
-  Pid ! enter_room,
-  ok.
-
-leave_room(Pid) ->
-  Pid ! leave_room,
-  ok.

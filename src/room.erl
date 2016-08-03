@@ -11,7 +11,7 @@
 
 %% API
 -export([start/1]).
--export([enter/2, leave/1, play/1, show/0]).
+-export([enter/2, leave/1, play/2, show/0]).
 -export([reset/0]).
 
 -record(state, {board, status = waiting, current_player = none, players = [], game_state}).
@@ -28,6 +28,12 @@ enter(Pid, NickName) ->
 leave(Pid) ->
   room ! {leave, Pid}.
 
+play(Pid, Move) ->
+  room ! {play, Pid, Move}.
+
+reset() ->
+  room ! reset.
+
 init(Board) ->
   <<A:32, B:32, C:32>> = crypto:rand_bytes(12),
   random:seed({A, B, C}),
@@ -38,11 +44,14 @@ loop(State = #state{status = waiting, board = Board, players = Players}) ->
     {enter, Pid, NickName} ->
       case Players of
         [] ->
+          notify_user(Pid, greeting(NickName)),
           Ref = erlang:monitor(process, Pid),
           loop(State#state{players = [{Pid, NickName, Ref}]});
         [{Pid, _, _}] ->
           loop(state);
         [{Pid2, _, _}] ->
+          notify_user(Pid, greeting(NickName)),
+          notify_user(Pid2, enter_room(NickName)),
           Ref = erlang:monitor(process, Pid),
           NewPlayers = [{Pid, NickName, Ref} | Players],
           First = select_player(NewPlayers),
@@ -120,9 +129,6 @@ select_player(Players) ->
   N = random:uniform(2),
   {Pid, NickName, _} = lists:nth(N, Players),
   {Pid, NickName}.
-
-reset() ->
-  erlang:error(not_implemented).
 
 show() ->
   erlang:error(not_implemented).
