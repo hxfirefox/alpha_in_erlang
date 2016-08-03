@@ -148,3 +148,9 @@ play(Pid) ->
 
 notify_user(Pid, Msg) ->
   Pid ! {notify, Msg}.
+
+greeting(NickName) ->
+  io:format("Welcom ~p~n", [NickName]).
+
+enter_room(NickName) ->
+  io:format("begin game with ~p~n", [NickName]).
