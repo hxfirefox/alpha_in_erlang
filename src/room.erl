@@ -11,7 +11,7 @@
 
 %% API
 -export([start/1]).
--export([enter/2, leave/1, play/2, show/0]).
+-export([enter/2, leave/1, play/1, show/0]).
 -export([reset/0]).
 
 -record(state, {board, status = waiting, current_player = none, players = [], game_state}).
@@ -139,9 +139,6 @@ update(Pid, Move, GameState) ->
 
 play(Pid) ->
   Pid ! play.
-
-play(_Arg0, _Arg1) ->
-  erlang:error(not_implemented).
 
 notify_user(Pid, Msg) ->
   Pid ! {notify, Msg}.
