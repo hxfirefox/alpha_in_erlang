@@ -83,9 +83,12 @@ handle_call(get_move, State = #state{board = Board, game_state = GSs}) ->
       _ ->
         {Games, MaxDepth, Time} %% MaxDepth-existed selection set
           = run_simulation(Player, LegalStates, State),
+        io:format("Games: ~p Time: ~pms~n", [Games, Time]),
+        io:format("Maximum depth searched: ~p~n", [MaxDepth]),
         %% [{move,percent,wins,plays}]
         Stats = make_stats(Player, LegalStates, State#state.plays_wins), %% update list
         SortedStats = lists:reverse(lists:keysort(2, Stats)),
+        [io:format("~p: ~.2f% (~p / ~p)~n", [Move, Percent, Wins, Plays]) || {Move, Percent, Wins, Plays} <- SortedStats],
         [{Move, _, _, _} | _] = SortedStats,
         Move
     end,
