@@ -1,12 +1,11 @@
 # 参加邓辉解构Alpha Go培训班
 
 ## 从对弈出发
-早期采用内嵌专家系统处理对弈，如[Deep Blue](https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer))，通过对每步棋的估值作出选择，而Alpha Go则不同，其原理是通过大量模拟获得落子位置获胜的数学统计，进而逼近最优落子位置，实现在不依赖围棋定势基础上去下围棋，采用随机选取盘面的点下一手棋，并模拟随后步骤，标记该手棋
-- 建模过程中是对数据的定义
-- 对并发模型的思考
-- 全局变量不可怕，可怕的是到处修改
-- 通过大量数学统计获得落子位置获胜几率较大，从而在不了解围棋规则的基础上去下围棋，而不是将围棋定势转化为算法
+早期采用内嵌专家系统处理对弈，如[Deep Blue](https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer))，通过对每步棋的估值作出选择，而Alpha Go则不同，其原理是通过大量模拟获得落子位置获胜的数学统计，进而逼近最优落子位置，实现在不依赖围棋定势基础上下围棋。具体做法可简化为采用随机选取当前盘面上的任意点下一手棋，并模拟随后步骤，标记该手棋
 
+>**Tips:**
+>建模过程中是对数据的定义
+>对并发模型的思考
 
 ## [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)
 From Wikipedia, the free encyclopedia
