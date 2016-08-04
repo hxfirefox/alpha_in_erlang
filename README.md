@@ -6,3 +6,6 @@
 - 早期采用专家系统
 - 随机选取盘面的点下一手棋，并模拟随后步骤，标记该手棋
 - Monte Carlo method，随机取样的方式逼近
+- 缩小宽度和深度
+- Monte Carlo Tree Search，按集合空间理解，而非树
+- ets
