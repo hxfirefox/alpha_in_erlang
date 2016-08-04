@@ -5,6 +5,7 @@
 
 - 早期采用专家系统
 - 随机选取盘面的点下一手棋，并模拟随后步骤，标记该手棋
+
 # Monte Carlo method
 From Wikipedia, the free encyclopedia
 
@@ -24,9 +25,10 @@ For example, consider a circle inscribed in a unit square. Given that the circle
 - Count the number of objects inside the circle and the total number of objects.
 - The ratio of the two counts is an estimate of the ratio of the two areas, which is π/4. Multiply the result by 4 to estimate π.
 
-- 缩小宽度和深度
-- Monte Carlo Tree Search，按集合空间理解，而非树
-- ets
+>**Tips:**
+>
+>Monte Carlo Tree Search，按集合空间理解，而非树
 
-- 如何做到探索与利用现有成果平衡
-- 如何用并行的方式
+# Thinking
+1. 如何做到探索与利用现有成果平衡
+2. 如何用并行的方式，缩小宽度和深度
