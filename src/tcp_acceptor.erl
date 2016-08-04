@@ -44,7 +44,7 @@ handle_info({tcp, _, RcvData}, State = #state{cb_module = CBM, cb_state = CBS}) 
 handle_info(Msg, State = #state{cb_module = CBM, cb_state = CBS}) ->
   case CBM:handle_info(Msg, CBS) of
     {ok, NewSBS} ->
-      {noreply, State = #state{cb_state = NewSBS}};
+      {noreply, State#state{cb_state = NewSBS}};
     stop ->
       {stop, normal, State}
   end.
