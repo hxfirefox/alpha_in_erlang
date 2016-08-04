@@ -6,7 +6,7 @@
 - 早期采用专家系统
 - 随机选取盘面的点下一手棋，并模拟随后步骤，标记该手棋
 
-# Monte Carlo method
+# [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)
 From Wikipedia, the free encyclopedia
 
 **Monte Carlo methods** (or **Monte Carlo experiments**) are a broad class of computational algorithms that rely on repeated random sampling to obtain numerical results. Their essential idea is using randomness to solve problems that might be deterministic in principle. They are often used in physical and mathematical problems and are most useful when it is difficult or impossible to use other approaches. Monte Carlo methods are mainly used in three distinct problem classes:[1] optimization, numerical integration, and generating draws from a probability distribution.
@@ -19,7 +19,6 @@ Monte Carlo methods vary, but tend to follow a particular pattern:
 - Aggregate the results.
 
 For example, consider a circle inscribed in a unit square. Given that the circle and the square have a ratio of areas that is π/4, the value of π can be approximated using a Monte Carlo method:
-![img=circle](https://en.wikipedia.org/wiki/File:Pi_30K.gif#/media/File:Pi_30K.gif)
 
 - Draw a square on the ground, then inscribe a circle within it.
 - Uniformly scatter some objects of uniform size (grains of rice or sand) over the square.
