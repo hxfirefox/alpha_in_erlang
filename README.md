@@ -19,6 +19,7 @@ Monte Carlo methods vary, but tend to follow a particular pattern:
 - Aggregate the results.
 
 For example, consider a circle inscribed in a unit square. Given that the circle and the square have a ratio of areas that is π/4, the value of π can be approximated using a Monte Carlo method:
+![img=circle](https://en.wikipedia.org/wiki/File:Pi_30K.gif#/media/File:Pi_30K.gif)
 
 - Draw a square on the ground, then inscribe a circle within it.
 - Uniformly scatter some objects of uniform size (grains of rice or sand) over the square.
