@@ -13,7 +13,13 @@
 -export([start/0, start/3]).
 -export([get_move/1, update/2, display/3]).
 
--record(state, {board = board, max_time = 2000, exploration_factor = 1.4, plays_wins, game_state = []}).
+-record(state, {board = board,
+                max_time = 2000, % milliseconds
+                exploration_factor = 1.4,
+                plays_wins, % ets, key={player, game_state}
+                            %           vale={plays::integer(),
+                            %                 wins::integer()}
+                game_state = []}).
 
 
 start() ->
@@ -34,7 +40,9 @@ get_move(Pid) ->
 init([Board, MaxTime, ExplorationFactor]) ->
   PlaysWins = ets:new(plays_wins, [set, protected, {read_concurrency, true}]),
   State = #state{board = Board,
-    max_time = MaxTime, exploration_factor = ExplorationFactor, plays_wins = PlaysWins},
+                  max_time = MaxTime,
+                  exploration_factor = ExplorationFactor,
+                  plays_wins = PlaysWins},
   loop(State).
 
 
