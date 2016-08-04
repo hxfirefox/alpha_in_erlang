@@ -24,7 +24,7 @@ update(mcts, Player, GameState) ->
   mcts:update(Player, GameState).
 
 display(human, Player, GameState, Move) ->
-  human:display(Player, GameState, Move)
+  human:display(Player, GameState, Move);
 display(mcts, Player, GameState, Move) ->
   mcts:display(Player, GameState, Move).
 
