@@ -10,12 +10,12 @@
 -author("hx").
 
 %% API
--export([run/5]).
+-export([run/6]).
 
 
-run(V1, V2, MT, EF, N) ->
-  P1 = V1:start(board, MT, EF),
-  P2 = V2:start(board, MT, EF),
+run(V1, V2, MT, EF1, EF2, N) ->
+  P1 = V1:start(board, MT, EF1),
+  P2 = V2:start(board, MT, EF2),
   play_game(0, N, {V1, make_player(V1, P1)},
     {V2, make_player(V2, P2)},
     {0, 0}).
