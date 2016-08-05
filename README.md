@@ -44,8 +44,10 @@ For example, consider a circle inscribed in a unit square. Given that the circle
 认识的层次——欧洲教堂的例子Beauvais, France
 设计——组合最重要
 
+《Category Theory of Programming》
+
 人能编出机器能运行的程序
 人能编出人能理解的程序
 人能编出机器能理解的程序
 
-不是技巧是语义
+## Parallel MCTS

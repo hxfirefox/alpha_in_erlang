@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 04. 八月 2016 上午11:12
 %%%-------------------------------------------------------------------
--module(mcts).
+-module(mcts_ucb1_p).
 -author("hx").
 
 %% API
@@ -126,14 +126,27 @@ run_simulation(Player, LegalStates, State) ->
 
 run_simulation(Player, LegalStates, State, {BeginTime, Games, MaxDepth}) ->
   TimeComsumed = timer:now_diff(os:timestamp(), BeginTime) div 1000,
+  N = 4,
   case TimeComsumed < State#state.max_time of
     true ->
-      {Winner, Expand, NeedUpdateds, Depth}
-        = random_game(Player, LegalStates, State),
-      propagate_back(Winner, Expand, NeedUpdateds, State#state.plays_wins),
-      run_simulation(Player, LegalStates, State, {BeginTime, Games + 1, max(Depth, MaxDepth)});
+      Parent = self(),
+      [spawn(
+        fun() ->
+          Res = random_game(Player, LegalStates, State),
+          Parent ! {random_game_over, Res}
+        end) || _ <- lists:seq(1, N)],
+      MaxDepth2 =
+        lists:foldl(fun(_, Depth) ->
+          receive
+            {random_game_over, Res} ->
+              {Winner, Expand, NeedUpdateds, Depth2} = Res,
+              propagate_back(Winner, Expand, NeedUpdateds, State#state.plays_wins),
+              max(Depth, Depth2)
+          end
+                    end, MaxDepth, lists:seq(1, N)),
+      run_simulation(Player, LegalStates, State, {BeginTime, Games + 1, MaxDepth2});
     false ->
-      {Games, MaxDepth, TimeComsumed}
+      {Games * N, MaxDepth, TimeComsumed}
   end.
 
 random_game(Player, LegalStates, State = #state{board = Board}) ->
@@ -167,10 +180,17 @@ random_game(Player, LegalStats, IterCount, MaxMoves, {Expand, NeedUpdateds, MaxD
   end.
 
 %% return:{GameState, Existed}
-select_one(Player, LegalStats, #state{exploration_factor = EF, plays_wins = PlaysWins}) ->
-  GSs = [I || {_, I} <- LegalStats],
-  RandomGS = choice(GSs),
-  {RandomGS, lookup(PlaysWins, {Player, RandomGS}) =/= none}.
+select_one(Player, LegalStates, #state{exploration_factor = EF, plays_wins = PlaysWins}) ->
+  GSs = [I || {_, I} <- LegalStates],
+  AllExpanded =
+    lists:all(fun(I) -> lookup(PlaysWins, {Player, I}) =/= none end, GSs),
+  case AllExpanded of
+    true ->
+      {ucb1(Player, GSs, EF, PlaysWins), true};
+    false ->
+      RandomGS = choice(GSs),
+      {RandomGS, lookup(PlaysWins, {Player, RandomGS}) =/= none}
+  end.
 
 propagate_back(Winner, none, NeedUpdateds, PlaysWins) ->
   update_play_wins(Winner, NeedUpdateds, PlaysWins);
@@ -196,3 +216,9 @@ choice(L) ->
 %% return: [{move, percent, wins, plays}]
 make_stats(Player, LegalStates, PlaysWins) ->
   [list_to_tuple([Move | get_plays_wins(PlaysWins, Player, GameState)]) || {Move, GameState} <- LegalStates].
+
+ucb1(Player, GSs, EF, PlaysWins) ->
+  PlayStats = [{GS, lookup(PlaysWins, {Player, GS})} || GS <- GSs],
+  LogTotal = math:log(lists:sum([P || {_, {P, _}} <- PlayStats])),
+  {_, Selected} = lists:max([{W / P + EF * math:sqrt(LogTotal / P), GS} || {GS, {P, W}} <- PlayStats]),
+  Selected.

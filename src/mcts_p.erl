@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 04. 八月 2016 上午11:12
 %%%-------------------------------------------------------------------
--module(mcts).
+-module(mcts_p).
 -author("hx").
 
 %% API
@@ -126,14 +126,27 @@ run_simulation(Player, LegalStates, State) ->
 
 run_simulation(Player, LegalStates, State, {BeginTime, Games, MaxDepth}) ->
   TimeComsumed = timer:now_diff(os:timestamp(), BeginTime) div 1000,
+  N = 4,
   case TimeComsumed < State#state.max_time of
     true ->
-      {Winner, Expand, NeedUpdateds, Depth}
-        = random_game(Player, LegalStates, State),
-      propagate_back(Winner, Expand, NeedUpdateds, State#state.plays_wins),
-      run_simulation(Player, LegalStates, State, {BeginTime, Games + 1, max(Depth, MaxDepth)});
+      Parent = self(),
+      [spawn(
+        fun() ->
+          Res = random_game(Player, LegalStates, State),
+          Parent ! {random_game_over, Res}
+        end) || _ <- lists:seq(1, N)],
+      MaxDepth2 =
+        lists:foldl(fun(_, Depth) ->
+          receive
+            {random_game_over, Res} ->
+              {Winner, Expand, NeedUpdateds, Depth2} = Res,
+              propagate_back(Winner, Expand, NeedUpdateds, State#state.plays_wins),
+              max(Depth, Depth2)
+          end
+                    end, MaxDepth, lists:seq(1, N)),
+      run_simulation(Player, LegalStates, State, {BeginTime, Games + 1, MaxDepth2});
     false ->
-      {Games, MaxDepth, TimeComsumed}
+      {Games * N, MaxDepth, TimeComsumed}
   end.
 
 random_game(Player, LegalStates, State = #state{board = Board}) ->
