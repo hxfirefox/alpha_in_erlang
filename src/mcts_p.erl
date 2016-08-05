@@ -135,15 +135,18 @@ run_simulation(Player, LegalStates, State, {BeginTime, Games, MaxDepth}) ->
           Res = random_game(Player, LegalStates, State),
           Parent ! {random_game_over, Res}
         end) || _ <- lists:seq(1, N)],
-      MaxDepth2 =
-        lists:foldl(fun(_, Depth) ->
+      AllRes =
+        lists:foldl(fun(_, Acc) ->
           receive
             {random_game_over, Res} ->
-              {Winner, Expand, NeedUpdateds, Depth2} = Res,
-              propagate_back(Winner, Expand, NeedUpdateds, State#state.plays_wins),
-              max(Depth, Depth2)
-          end
-                    end, MaxDepth, lists:seq(1, N)),
+              [Res | Acc]
+          end end, [], lists:seq(1, N)),
+      MaxDepth2 =
+        lists:foldl(fun(Res, Depth) ->
+          {Winner, Expand, NeedUpdateds, Depth2} = Res,
+          propagate_back(Winner, Expand, NeedUpdateds, State#state.plays_wins),
+          max(Depth, Depth2) end,
+          MaxDepth, AllRes),
       run_simulation(Player, LegalStates, State, {BeginTime, Games + 1, MaxDepth2});
     false ->
       {Games * N, MaxDepth, TimeComsumed}
