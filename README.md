@@ -35,6 +35,17 @@ For example, consider a circle inscribed in a unit square. Given that the circle
 >
 >Monte Carlo Tree Search，按集合空间理解，而非树
 
-# Thinking
+## Thinking
 1. 如何做到探索与利用现有成果平衡
 2. 如何用并行的方式，缩小宽度和深度
+
+## Mathematics
+跳出语言本身，一切都是数据，只不过模型不同，语义层次不同——提升抽象层次，语义层次
+认识的层次——欧洲教堂的例子Beauvais, France
+设计——组合最重要
+
+人能编出机器能运行的程序
+人能编出人能理解的程序
+人能编出机器能理解的程序
+
+不是技巧是语义
