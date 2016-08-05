@@ -7,7 +7,8 @@
 
 >**Tips:**
 >建模过程中是对数据的定义
->对并发模型的思考
+>
+>对并发模型的一些思考
 
 ## [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)
 From Wikipedia, the free encyclopedia
@@ -27,6 +28,8 @@ For example, consider a circle inscribed in a unit square. Given that the circle
 - Uniformly scatter some objects of uniform size (grains of rice or sand) over the square.
 - Count the number of objects inside the circle and the total number of objects.
 - The ratio of the two counts is an estimate of the ratio of the two areas, which is π/4. Multiply the result by 4 to estimate π.
+
+计算π的例子见文件src/mc_pi.erl
 
 >**Tips:**
 >
