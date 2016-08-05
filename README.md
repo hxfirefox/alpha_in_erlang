@@ -47,14 +47,16 @@ For example, consider a circle inscribed in a unit square. Given that the circle
 ![img=gothic](https://bartoszmilewski.files.wordpress.com/2014/10/beauvais_interior_supports.jpg)
 
 ## Thinking
-1. 如何做到探索与利用现有成果平衡
+
+### 如何做到探索与利用现有成果平衡
 
 **Multi-armed bandit**
+
 From Wikipedia, the free encyclopedia
 
 In probability theory, the multi-armed bandit problem (sometimes called the K or N-armed bandit problem) is a problem in which a gambler at a row of slot machines (sometimes known as "one-armed bandits") has to decide which machines to play, how many times to play each machine and in which order to play them.When played, each machine provides a random reward from a probability distribution specific to that machine. The objective of the gambler is to maximize the sum of rewards earned through a sequence of lever pulls.
 
-2. 如何用并行的方式，缩小宽度和深度
+### 如何用并行的方式，缩小宽度和深度
 
 见src/mcts_p.erl及src/mcts_ucb1_p.erl
 
