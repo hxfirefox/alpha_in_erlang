@@ -65,5 +65,7 @@ In probability theory, the multi-armed bandit problem (sometimes called the K or
 - mcts 框架 + policy network value network
 
 > 监督式的学习——分类，带答案的问题(人类盘面的走法)，基于前面的学习作答未知问题，policy network 宽度
+>
 >增强式的学习——通过反馈来刺激学习，追求结果 value network 深度
+>
 >监督式的学习——回顾分析
