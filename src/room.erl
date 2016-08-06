@@ -113,7 +113,7 @@ loop(State = #state{status = playing, current_player = {Current, NickName}, play
             draw ->
               loop(State#state{status = waiting, players = [], current_player = none});
             _ ->
-              {WP, WN} = State#state.current_player,
+              {_, WN} = State#state.current_player,
               [notify_user(P, io:format("winner is ~p~n", [WN])) || {P, _} <- State#state.players],
               loop(State#state{status = waiting, players = [], current_player = none})
           end
