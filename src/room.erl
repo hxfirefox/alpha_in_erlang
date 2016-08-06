@@ -114,7 +114,13 @@ loop(State = #state{status = playing, current_player = {Current, NickName}, play
               loop(State#state{status = waiting, players = [], current_player = none});
             _ ->
               {_, WN} = State#state.current_player,
-              [notify_user(P, io:format("winner is ~p~n", [WN])) || {P, _} <- State#state.players],
+%%              notify_winner(State#state.players),
+%%              [H | T] = State#state.players,
+%%              {P1, _, _} = H,
+%%              notify_user(P1, lists:flatten(io_lib:format("winner is ~p~n", [WN]))),
+%%              {P2, _, _} = T,
+%%              notify_user(P1, lists:flatten(io_lib:format("winner is ~p~n", [WN]))),
+              [notify_user(P, lists:flatten(io_lib:format("winner is ~p~n", [WN]))) || {P, _, _} <- State#state.players],
               loop(State#state{status = waiting, players = [], current_player = none})
           end
       end;
@@ -152,7 +158,11 @@ notify_user(Pid, Msg) ->
   Pid ! {notify, Msg}.
 
 greeting(NickName) ->
-  io:format("Welcom ~p~n", [NickName]).
+  lists:flatten(io_lib:format("Welcome ~p~n", [NickName])).
 
 enter_room(NickName) ->
-  io:format("begin game with ~p~n", [NickName]).
+  lists:flatten(io_lib:format("begin game with ~p~n", [NickName])).
+
+
+%%notify_winner(Players) ->
+%%  [H].
