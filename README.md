@@ -1,6 +1,6 @@
 # 参加邓辉解构Alpha Go培训班
 
->Implementing "Mastering the game of Go with deep neural networks and tree search" in Erlang
+>Implementing *"Mastering the game of Go with deep neural networks and tree search"* in Erlang
 
 ## 从对弈谈起
 
@@ -9,13 +9,12 @@
 性超过现有计算机的能力极限，因此仍然采取早期内嵌专家系统的方法处理对弈，如[Deep Blue](https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer))，
 那么其结果可想而知——失败；AlphaGo选择了不同的方式，其原理简单地来说就是在有限的时间内，通过大量模拟获得落子位置获胜的
 数学统计，进而逼近最优落子位置，实现在不依赖围棋定势基础上（专家系统）打败人类围棋选手。当然AlphaGo的真正实现细节不会如
-此简单，但大体上通过Monte Carlo Tree Search配合神经网络是可以确定的。
+此简单，但大体上通过Monte Carlo Tree Search配合神经网络是可以确定的。因此培训的核心内容便是理解与实现Monte Carlo Tree Search，
+由于围棋实现的难度，培训选择了一种较容易实现的对弈游戏*Tic Tac Toe*。
 
->**Tips:**
->
->1. 建模过程中是对数据的定义
->
->2. 对并发模型的一些思考
+## Tic Tac Toe
+
+
 
 ## [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)
 
@@ -82,5 +81,12 @@
 >增强式的学习——通过反馈来刺激学习，追求结果 value network 深度
 >
 >监督式的学习——回顾分析
+
+## Fun
+>**Tips:**
+>
+>1. 建模过程中是对数据的定义
+>
+>2. 对并发模型的一些思考
 
 ## 代码目录结构
