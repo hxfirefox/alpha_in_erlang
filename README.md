@@ -1,10 +1,15 @@
 # 参加邓辉解构Alpha Go培训班
 
+>Implementing "Mastering the game of Go with deep neural networks and tree search" in Erlang
+
 ## 从对弈谈起
 
-早期采用内嵌专家系统处理对弈，如[Deep Blue](https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer))，通过对每步棋的估值作出选择，而Alpha Go则不同，其原理是通过大量模拟获得落子位置获胜的数学统计，进而逼近最优落子位置，实现在不依赖围棋定势基础上下围棋。
-
-具体做法可简化为采用随机选取当前盘面上的任意点下一手棋，并模拟随后步骤直至棋局结束，根据胜负情况记录所下的此手标记该手棋。
+谈起AI与人类对弈的过往，对于AI如何战胜人类，大多数人给出的答案基本上利用计算机（AI）的运算能力，穷举可能的结果，并从可能
+的结果优选最佳路径；对于其他棋类，这样的做法可能可行，但是在面对围棋时，计算机的运算能力受到了挑战，围棋棋盘上的空间可能
+性超过现有计算机的能力极限，因此仍然采取早期内嵌专家系统的方法处理对弈，如[Deep Blue](https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer))，
+那么其结果可想而知——失败；AlphaGo选择了不同的方式，其原理简单地来说就是在有限的时间内，通过大量模拟获得落子位置获胜的
+数学统计，进而逼近最优落子位置，实现在不依赖围棋定势基础上（专家系统）打败人类围棋选手。当然AlphaGo的真正实现细节不会如
+此简单，但大体上通过Monte Carlo Tree Search配合神经网络是可以确定的。
 
 >**Tips:**
 >
