@@ -27,6 +27,12 @@
 
 ![img=design](https://github.com/hxfirefox/alpha_in_erlang/blob/master/src/resources/alphaTTT%20design.png)
 
+>**Tips:**
+>
+>1. 建模过程中是对数据的定义
+>
+>2. 对并发模型的一些思考，邓辉老师建议把从实际并发的事物入手，将其在软件设计过程中抽象化
+
 ## 核心算法
 
 整套系统的核心是[Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)，通过该算法完成从盘面落点位置选择，
@@ -96,10 +102,6 @@ Erlang实现见src/mcts_ucb1.erl。
 >监督式的学习——回顾分析
 
 ## Fun
->**Tips:**
->
->1. 建模过程中是对数据的定义
->
->2. 对并发模型的一些思考
+
 
 ## 代码目录结构
