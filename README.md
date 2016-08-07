@@ -25,6 +25,8 @@
 
 ## 软件设计
 
+
+
 ## 核心算法
 
 [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)是整个游戏的核心算法，通过该算法选择盘面上的落点位
