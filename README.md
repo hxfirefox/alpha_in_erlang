@@ -29,34 +29,35 @@
 
 ## 核心算法
 
-[Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)是整个游戏的核心算法，通过该算法选择盘面上的落点位
-置，并从该位置出发模拟后续走势上直至完成对弈，统计对弈结果。在此基础上通过引入不同的tree policy来优化落子点选择。
+整套系统的核心是[Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)，通过该算法完成从盘面落点位置选择，
+模拟从该位置的后续走势，直至对弈结束并统计结果。使用Monte Carlo method使得系统具备了两个特点：
+- 时间盒，即可限定获得结果时间
+- 无需具备专业的围棋知识
 
->**Monte Carlo methods**
->
->From Wikipedia, the free encyclopedia
->
->**Monte Carlo methods** (or **Monte Carlo experiments**) are a broad class of computational algorithms that rely on repeated random sampling to obtain numerical results. Their essential idea is using randomness to solve problems that might be deterministic in principle. They are often used in physical and mathematical problems and are most useful when it is difficult or impossible to use other approaches. Monte Carlo methods are mainly used in three distinct problem classes:[1] optimization, numerical integration, and generating draws from a probability distribution.
->
->Monte Carlo methods vary, but tend to follow a particular pattern:
->
->- Define a domain of possible inputs.
->- Generate inputs randomly from a probability distribution over the domain.
->- Perform a deterministic computation on the inputs.
->- Aggregate the results.
->
->For example, consider a circle inscribed in a unit square. Given that the circle and the square have a ratio of areas that is π/4, the value of π can be approximated using a Monte Carlo method:
+该算法的本质是依赖大量随机样本来逼近问题的解答，通常具有四个步骤：
+- Selection
+- Expansion
+- Simulation
+- Back Propagation
+
+>**Tips:** 对于Monte Carlo Tree Search，邓辉老师建议不要纠结于字面上的tree，而是应该按集合空间去理解和实现其算法
+
+以π的计算为例如下：
+
+>For example, consider a circle inscribed in a unit square. Given that the circle and the square have a
+>ratio of areas that is π/4, the value of π can be approximated using a Monte Carlo method:
 >
 >- Draw a square on the ground, then inscribe a circle within it.
 >- Uniformly scatter some objects of uniform size (grains of rice or sand) over the square.
 >- Count the number of objects inside the circle and the total number of objects.
 >- The ratio of the two counts is an estimate of the ratio of the two areas, which is π/4. Multiply the result by 4 to estimate π.
+>
+>Erlang实现见src/mc_pi.erl
 
-计算π的例子见文件src/mc_pi.erl
-
-采用随机选择落子点的Monte Carlo method的实现见文件src/mcts.erl
-
->**Tips:** 对于Monte Carlo Tree Search，邓辉老师建议不要纠结于字面上的tree，而是应该按集合空间去理解和实现其算法
+利用相同原理和步骤即可在Tic Tac Toe上得到应用，Erlang实现见src/mcts.erl，这种实现采用随机落子的方式。随机落子在效率上比
+较浪费，已有的成果较少获得传承，这引出了另一个问题，即在有限的时间内，落子选择如何平衡“探索与利用现有成果”的问题。此类
+问题可通过借助[**Multi-armed bandit**](https://en.wikipedia.org/wiki/Multi-armed_bandit)加以思考，最终引入UCB1算法，
+Erlang实现见src/mcts_ucb1.erl。
 
 ## Mathematics
 
