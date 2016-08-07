@@ -14,7 +14,9 @@
 
 ## Tic Tac Toe
 
-
+![img=ttt](http://www.craftsdirect.com/upload/project_images/tic-tac-toe-tile-board.jpg)
+基本的Tic Tac Toe规则较为简单，并且棋盘空间也非常有限，在此基础上进行增强的[Ultimate Tic Tac Toe](http://bejofo.net/ttt)
+是培训班上检验Monte Carlo Tree Search实现效果的工具，Ultimate Tic Tac Toe的规则如下：
 
 ## [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)
 
