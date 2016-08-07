@@ -25,7 +25,7 @@
 
 ## 软件设计
 
-
+![img=design](https://github.com/hxfirefox/alpha_in_erlang/blob/master/src/resources/alphaTTT%20design.png)
 
 ## 核心算法
 
