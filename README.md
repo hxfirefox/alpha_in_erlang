@@ -16,11 +16,19 @@
 
 ![img=ttt](http://www.craftsdirect.com/upload/project_images/tic-tac-toe-tile-board.jpg)
 基本的Tic Tac Toe规则较为简单，并且棋盘空间也非常有限，在此基础上进行增强的[Ultimate Tic Tac Toe](http://bejofo.net/ttt)
-是培训班上检验Monte Carlo Tree Search实现效果的工具，Ultimate Tic Tac Toe的规则如下：
+是培训班上检验Monte Carlo Tree Search实现效果的工具，Ultimate Tic Tac Toe的简单说明如下：
 
-## [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)
+>Ultimate Tic Tac Toe is 9 normal games of Tic Tac Toe played simultaneously. The board is made up of 9
+>titles, each of which contains 9 squares. You move will dictate where your opponent can play however.
+>So if you play your piece in the top right square of a title, then your opponent must play their next
+>piece in the top right title
 
-在如何选取盘面上的落子点，并模拟后续走势上，利用了**Monte Carlo methods**，并在此基础上通过引入不同的tree policy来优化落子点选择。
+## 软件设计
+
+## 核心算法
+
+[Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)是整个游戏的核心算法，通过该算法选择盘面上的落点位
+置，并从该位置出发模拟后续走势上直至完成对弈，统计对弈结果。在此基础上通过引入不同的tree policy来优化落子点选择。
 
 >**Monte Carlo methods**
 >
